@@ -1,0 +1,7 @@
+i#FATE-button:hover {
+    color: #ff7171;
+}
+.fa-yin-yang:before {
+    content: "\f6ad";
+    color: indianred;
+}
