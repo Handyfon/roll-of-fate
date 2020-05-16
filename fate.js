@@ -41,7 +41,7 @@ Hooks.once('init', function() {
         type: String,
     });
 	game.settings.register('fateroll', 'textbackgroundcolor', {
-        name: 'Text-Color',
+        name: 'Text-Background-Color',
         hint: 'You can change the color of the text-background. You can use color-names or hex codes.',
         scope: 'world',
         config: true,
