@@ -41,7 +41,7 @@ Hooks.once('init', function() {
         type: String,
     });
 	game.settings.register('fateroll', 'textbackgroundcolor', {
-        name: 'Text-Background-Color',
+        name: 'Text-Color',
         hint: 'You can change the color of the text-background. You can use color-names or hex codes.',
         scope: 'world',
         config: true,
@@ -105,6 +105,14 @@ class Fatecontrol {
 	let sBackgroundImg = game.settings.get("fateroll", "backgroundimg");
 	let sSoundPath = game.settings.get("fateroll", "soundpath");
 	
+	let blind;
+	let whisper;
+	
+	let rollMode;
+      rollMode = rollMode || game.settings.get("core", "rollMode");
+      if ( ["gmroll", "blindroll"].includes(rollMode) ) whisper = ChatMessage.getWhisperRecipients("GM");
+      if ( rollMode === "blindroll" ) blind = true;
+      if ( rollMode === "selfroll" ) whisper = [game.user.id];
 	
 	if(tokens.length === 1){
 		ui.notifications.notify("ROLL OF FATE: You only selected one token...");
@@ -124,17 +132,12 @@ class Fatecontrol {
 				</br>
 				<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
 			</div>`;
-		console.log(randomtoken);
-		console.log(randomtoken.actor.name);
-			let rollWhisper = null;
-				let rollBlind = false;
-				let rollMode = game.settings.get("core", "rollMode");
-				if (["gmroll", "blindroll"].includes(rollMode)) rollWhisper = ChatMessage.getWhisperIDs("GM");
-				if (rollMode === "blindroll") rollBlind = true;
+
 				ChatMessage.create({
 				user: game.user._id,
 				content: content,
-				blind: rollBlind,
+				whisper: whisper,
+				blind: blind,
 				sound: sSoundPath,
 				flags: {
 					darksheet: {
