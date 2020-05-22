@@ -1,5 +1,13 @@
 Hooks.once('init', function() {
 
+	game.settings.register('fateroll', 'displayselected', {
+        name: 'Display selected players',
+        hint: 'Enable this to also post the selected players into the chat',
+        scope: 'world',
+        config: true,
+        default: false,
+        type: Boolean,
+    }); 
     game.settings.register('fateroll', 'fatetext', {
         name: 'Title',
         hint: 'This is the text that is displayed above the chosen players name',
@@ -92,60 +100,97 @@ class Fatecontrol {
         }
     }
     static initializeFATE() {
-	event.preventDefault();
-	let tokens = canvas.tokens.controlled;
-	let randomtoken = tokens[Math.floor(Math.random() * tokens.length)];
-	let sHeader = game.settings.get("fateroll", "fatetext");
-	let sPrefix = game.settings.get("fateroll", "prefix");
-	let sSuffix = game.settings.get("fateroll", "suffix");
-	let sBackgroundColor = game.settings.get("fateroll", "backgroundcolor");
-	let sTitleColor = game.settings.get("fateroll", "titlecolor");
-	let sTextColor = game.settings.get("fateroll", "textcolor");
-	let sTextBackgroundColor = game.settings.get("fateroll", "textbackgroundcolor");
-	let sBackgroundImg = game.settings.get("fateroll", "backgroundimg");
-	let sSoundPath = game.settings.get("fateroll", "soundpath");
-	
-	let blind;
-	let whisper;
-	
-	let rollMode;
-      rollMode = rollMode || game.settings.get("core", "rollMode");
-      if ( ["gmroll", "blindroll"].includes(rollMode) ) whisper = ChatMessage.getWhisperRecipients("GM");
-      if ( rollMode === "blindroll" ) blind = true;
-      if ( rollMode === "selfroll" ) whisper = [game.user.id];
-	
-	if(tokens.length === 1){
-		ui.notifications.notify("ROLL OF FATE: You only selected one token...");
-	}
-	
-	if(tokens.length === 0){
-		ui.notifications.warn("ROLL OF FATE: You need to select some tokens first...");
-		console.log("Roll of Fate | No tokens selected");
-	}
-	else{
-		console.log(tokens);
-			let content = `
-			<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg});" class="dnd5e chat-card item-card">
-				<header class="card-header flexrow">
-					<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; background:${sTextBackgroundColor};"><b>${sHeader}</b></h3>
-				</header>
-				</br>
-				<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
-			</div>`;
-
-				ChatMessage.create({
-				user: game.user._id,
-				content: content,
-				whisper: whisper,
-				blind: blind,
-				sound: sSoundPath,
-				flags: {
-					darksheet: {
-					outcome: 'table'
+		event.preventDefault();
+		let tokens = canvas.tokens.controlled;
+		let randomtoken = tokens[Math.floor(Math.random() * tokens.length)];
+		let sHeader = game.settings.get("fateroll", "fatetext");
+		let sPrefix = game.settings.get("fateroll", "prefix");
+		let sSuffix = game.settings.get("fateroll", "suffix");
+		let sBackgroundColor = game.settings.get("fateroll", "backgroundcolor");
+		let sTitleColor = game.settings.get("fateroll", "titlecolor");
+		let sTextColor = game.settings.get("fateroll", "textcolor");
+		let sTextBackgroundColor = game.settings.get("fateroll", "textbackgroundcolor");
+		let sBackgroundImg = game.settings.get("fateroll", "backgroundimg");
+		let sSoundPath = game.settings.get("fateroll", "soundpath");
+		
+		let selectedstring = "";
+		
+		for(let i = 0; i < tokens.length ; i++) {
+			if(i != (tokens.length -1)){
+			selectedstring = selectedstring + tokens[i].data.name +", ";
+			}
+			else{
+			selectedstring = selectedstring + tokens[i].data.name;
+			}
+		}
+		
+		let blind;
+		let whisper;
+		
+		let rollMode;
+		  rollMode = rollMode || game.settings.get("core", "rollMode");
+		  if ( ["gmroll", "blindroll"].includes(rollMode) ) whisper = ChatMessage.getWhisperRecipients("GM");
+		  if ( rollMode === "blindroll" ) blind = true;
+		  if ( rollMode === "selfroll" ) whisper = [game.user.id];
+		
+		if(tokens.length === 1){
+			ui.notifications.notify("ROLL OF FATE: You only selected one token...");
+		}
+		
+		if(tokens.length === 0){
+			ui.notifications.warn("ROLL OF FATE: You need to select some tokens first...");
+			console.log("Roll of Fate | No tokens selected");
+		}
+		else{
+			console.log(tokens);
+				let content = `
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg});" class="dnd5e chat-card item-card">
+					<header class="card-header flexrow">
+						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; background:${sTextBackgroundColor};"><b>${sHeader}</b></h3>
+					</header>
+					</br>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
+				</div>`;
+				let contentWithUsers = `
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg});" class="dnd5e chat-card item-card">
+					${selectedstring}
+					<header class="card-header flexrow">
+						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; background:${sTextBackgroundColor};"><b>${sHeader}</b></h3>
+					</header>
+					</br>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
+				</div>`;
+				
+			if(game.settings.get("fateroll", "displayselected")){
+					ChatMessage.create({
+					user: game.user._id,
+					content: contentWithUsers,
+					whisper: whisper,
+					blind: blind,
+					sound: sSoundPath,
+					flags: {
+						darksheet: {
+						outcome: 'table'
+						}
 					}
-				}
-				});
-    }
+					});
+			}
+			else
+			{
+					ChatMessage.create({
+					user: game.user._id,
+					content: content,
+					whisper: whisper,
+					blind: blind,
+					sound: sSoundPath,
+					flags: {
+						darksheet: {
+						outcome: 'table'
+						}
+					}
+					});
+			}
+		}
 	}
 }
 
