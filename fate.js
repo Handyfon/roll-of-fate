@@ -49,7 +49,7 @@ Hooks.once('init', function() {
         type: String,
     });
 	game.settings.register('fateroll', 'textbackgroundcolor', {
-        name: 'Text-Color',
+        name: 'Text-Background-Color',
         hint: 'You can change the color of the text-background. You can use color-names or hex codes.',
         scope: 'world',
         config: true,
@@ -79,6 +79,14 @@ Hooks.once('init', function() {
         config: true,
         default: 'sounds/dice.wav',
         type: String,
+    }); 
+	game.settings.register('fateroll', 'hidebutton', {
+        name: 'Hide-Button for non-GMs',
+        hint: 'Check this if you dont want your players to see the button',
+        scope: 'world',
+        config: true,
+        default: false,
+        type: Boolean,
     }); 
     console.log("Initialised Fate-Module");
 });
@@ -146,19 +154,19 @@ class Fatecontrol {
 				let content = `
 				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg});" class="dnd5e chat-card item-card">
 					<header class="card-header flexrow">
-						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; background:${sTextBackgroundColor};"><b>${sHeader}</b></h3>
+						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 5px ${sTextBackgroundColor};"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 5px ${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
 				</div>`;
 				let contentWithUsers = `
 				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg});" class="dnd5e chat-card item-card">
-					${selectedstring}
+					<p style="color:${sTextColor}">${selectedstring}</p>
 					<header class="card-header flexrow">
-						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; background:${sTextBackgroundColor};"><b>${sHeader}</b></h3>
+						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 5px ${sTextBackgroundColor};"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;background:${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 5px ${sTextBackgroundColor};">${sPrefix}${randomtoken.data.name}${sSuffix}</h3>
 				</div>`;
 				
 			if(game.settings.get("fateroll", "displayselected")){
@@ -193,5 +201,17 @@ class Fatecontrol {
 		}
 	}
 }
-
-Hooks.on('canvasReady', Fatecontrol.addChatControl);
+Hooks.on('canvasReady', function(){
+	if(game.settings.get('fateroll', 'hidebutton')){
+		if(game.user.isGM){
+			Fatecontrol.addChatControl();
+			console.log("FATE GM TRUE");
+		}
+		console.log("FATE GM FIN");
+	}
+	else{
+	Fatecontrol.addChatControl();
+	console.log("FATE NOT SET");
+	}
+ 
+});
