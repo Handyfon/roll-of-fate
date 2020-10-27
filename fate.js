@@ -88,21 +88,21 @@ Hooks.once('init', function() {
         default: false,
         type: Boolean,
     }); 
-    console.log("Initialised Fate-Module");
+    console.log("Initialised Roll-Of-Fate-Module");
 });
 
 
 class Fatecontrol {
 
     static addChatControl() {
-        const chatControlLeft = document.getElementsByClassName("roll-type-select")[0];
+        const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
         let tableNode = document.getElementById("FATE-button");
 
         if (chatControlLeft && !tableNode) {
-            const chatControlLeftNode = chatControlLeft.children[1];
+            const chatControlLeftNode = chatControlLeft.firstElementChild;
 			const number = 4;
             tableNode = document.createElement("label");
-            tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;"></i>`;
+            tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
             tableNode.onclick = Fatecontrol.initializeFATE;
             chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
         }

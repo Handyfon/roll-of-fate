@@ -5,3 +5,10 @@ i#FATE-button:hover {
     content: "\f6ad";
     color: indianred;
 }
+#chat-controls .chat-control-icon {
+    flex: 0;
+    flex-basis: auto;
+}
+i#FATE-button:hover {
+    filter: saturate(0.5);
+}
