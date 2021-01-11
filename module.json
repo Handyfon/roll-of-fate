@@ -2,7 +2,7 @@
 	"name": "fateroll",
 	"title": "Roll of Fate",
 	"description": "Blame PC deaths on the system",
-	"version": "0.4.3",
+	"version": "0.4.4",
 	"author": "Handyfon#8390",
 	"esmodules": ["fate.js"],
 	"styles": ["fate.css"],
