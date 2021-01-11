@@ -53,7 +53,7 @@ Hooks.once('init', function() {
         hint: 'This is the text that is displayed above the chosen players name (you can define multiple titles if you seperate them with a ; )',
         scope: 'world',
         config: false,
-        default: 'Roll of Fate;Fate has been Decided;;Judgement Day;Call of Abbathor',
+        default: 'Roll of Fate;Fate has been Decided;Judgement Day;Call of Abbathor',
         type: String,
     });
     game.settings.register('fateroll', 'prefix', {
@@ -396,9 +396,19 @@ class ROFConfig extends FormApplication {
 		let TextColor = document.getElementById("ROFTextC").value;
 		let BackgroundColor = document.getElementById("ROFBackC").value;
 		let BackgroundStyle = document.getElementById("ROFbgstyle").value;
-		let fatetext = document.getElementById("ROFTitlelist").value.replaceAll("\n", ";");
-		let prefix = document.getElementById("ROFPrefixList").value.replaceAll("\n", ";");
-		let suffix = document.getElementById("ROFSuffixList").value.replaceAll("\n", ";");
+		
+		let sFateText = document.getElementById("ROFTitlelist").value;
+		sFateText = sFateText.replace(/'\n'/g, ';');
+		
+		let sPrefix = document.getElementById("ROFPrefixList").value;
+		sPrefix = sPrefix.replace(/'\n'/g, ';');
+		
+		let sSuffix = document.getElementById("ROFSuffixList").value;
+		sSuffix = sSuffix.replace(/'\n'/g, ';');
+		
+		let fatetext = sFateText;
+		let prefix = sPrefix;
+		let suffix = sSuffix;
 		
 		game.settings.set('fateroll', 'dropshadow', document.getElementById("ROFCardDS").checked);
 		game.settings.set('fateroll', 'titlecolor', TitleColor);
@@ -475,12 +485,19 @@ Hooks.on('renderROFConfig', function(){
 	document.getElementById("ROFBackC").value = game.settings.get('fateroll', 'backgroundcolor');
 	document.getElementById("messagepreview").style.background = game.settings.get('fateroll', 'backgroundcolor');
 
-	document.getElementById("ROFTitlelist").value = game.settings.get("fateroll", "fatetext").replaceAll(";", "\n");
+	let sFateText = game.settings.get("fateroll", "fatetext");
+	sFateText = sFateText.replace(/;/g, "\n");
+    let sROFPrefixList = game.settings.get("fateroll", "prefix");
+	sROFPrefixList = sROFPrefixList.replace(/;/g, "\n");
+	let sROFSuffixList = game.settings.get("fateroll", "suffix");
+	sROFSuffixList = sROFSuffixList.replace(/;/g, "\n");
 	
-	document.getElementById("ROFPrefixList").value = game.settings.get("fateroll", "prefix").replaceAll(";", "\n");
 	
-	document.getElementById("ROFSuffixList").value = game.settings.get("fateroll", "suffix").replaceAll(";", "\n");
+	document.getElementById("ROFTitlelist").value = sFateText;
 	
+	document.getElementById("ROFPrefixList").value = sROFPrefixList;
+	
+	document.getElementById("ROFSuffixList").value = sROFSuffixList;
 	//let backgroundArray = [];
 		
 	if(game.settings.get("fateroll", "backgroundimg") != ""){
