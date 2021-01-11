@@ -17,7 +17,7 @@
 				</header>
 				<div class="message-content">
 					
-				<div id="messagepreview" style="background: ${sBackgroundColor}; background-size: ${sBackgroundstyle};" class="dnd5e chat-card item-card">
+				<div id="messagepreview" style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};" class="dnd5e chat-card item-card">
 								<header id="cardpreview" class="card-header flexrow">
 									<h3 id="headerpreview" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 0px ${sTextBackgroundColor};"><b>Header</b></h3>
 								</header>
@@ -28,10 +28,6 @@
 				</li>
 		</div>
 		<div class="form-group">
-		<label>ROF-Drop Shadow</label>
-		<input id="ROFCardDS" type="checkbox" onchange="changeCardDS()" name="ROFCardDS" value="{{ROFCardDS}}" data-dtype="Boolean" checked="false"/>
-		</div>
-		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
 			<label>Title-Color</label>
 				<div class="form-fields">
 					<input id="ROFTitleC" type="text" onchange="changetitlecolor()" name="titlecolor" value="{{titlecolor}}" data-dtype="String" data-edit="titleColorSelector" />
@@ -39,115 +35,26 @@
 				</div>
 		</div>
 		<div class="form-group">
-			<label style="margin-left: 5px;">Title-Glow</label>
+			<label>Title-Glow</label>
 				<div class="form-fields">
 					<input id="ROFTitleGlow" type="checkbox" onchange="changeGlow()" name="ROFTitleGlow" value="{{ROFTitleGlow}}" data-dtype="Boolean" checked="false"/>
 				</div>
-			<label style="margin-left: 5px;">Blend</label>
-			<select name="ROFTitleBlend" id="ROFTitleBlend" onchange="changeTitleBlend()">
-			  <option value="">normal</option>
-			  <option value="color">color</option>
-			  <option value="color-burn">color-burn</option>
-			  <option value="darken">darken</option>
-			  <option value="difference">difference</option>
-			  <option value="exclusion">exclusion</option>
-			  <option value="hard-light">hard-light</option>
-			  <option value="hue">hue</option>
-			  <option value="lighten">lighten</option>
-			  <option value="luminosity">luminosity</option>
-			  <option value="multiply">multiply</option>
-			  <option value="overlay">overlay</option>
-			  <option value="revert">revert</option>
-			  <option value="saturation">saturation</option>
-			  <option value="screen">screen</option>
-			  <option value="soft-light">soft-light</option>
-			</select>
 		</div>
+
 		<div class="form-group">
-			<label>TitleBG-Style</label>
-			<select name="TitleBackStyle" id="TitleBackStyle" onchange="changeTitleBlend()">
-			  <option value="">None</option>
-			  <option value="#00000059">Dark</option>
-			  <option value="radial-gradient(#00000073, transparent)">Dark-Radial</option>
-			  <option value="radial-gradient(transparent, #00000073)">Dark-Vignette</option>
-			  <option value="#ffffff5e">Light</option>
-			  <option value="radial-gradient(#ffffff5e, transparent)">Light-Radial</option>
-			  <option value="radial-gradient(transparent, #ffffff63)">Light-Vignette</option>
-			</select>
-			<label style="margin-left: 5px;">Filter:</label>
-			<select name="TitleBackFilter" id="TitleBackFilter" onchange="changeTitleBlend()">
-			  <option value="">None</option>
-			  <option value="blur(2px)">Blur</option>
-			  <option value="brightness(1.2)">Brightness</option>
-			  <option value="brightness(1.5)">Brightness (Strong)</option>
-			  <option value="brightness(0.8)">Darkness</option>
-			  <option value="brightness(0.5)">Darkness (Strong)</option>
-			  <option value="grayscale(1)">Grayscale</option>
-			  <option value="hue-rotate(45deg)">Hue-Rotate (45deg)</option>
-			  <option value="hue-rotate(15deg)">Hue-Rotate (15deg)</option>
-			  <option value="invert(1)">Invert</option>
-			  <option value="screen">screen</option>
-			  <option value="soft-light">soft-light</option>
-			</select>
-		</div>
-		
-		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
-			<label  style="margin-left: 5px;">Text-Color</label>
+			<label>Text-Color</label>
 				<div class="form-fields">
 					<input id="ROFTextC" type="text" onchange="changeTextColor()" name="Textcolor" value="{{Textecolor}}" data-dtype="String" />
 					<input id="ROFTextCP" type="color" onchange="changeTextCP()" name="TextColorSelector" value="{{TextColorSelector}}" data-edit="Textcolor"/>
 				</div>
 		</div>
 		<div class="form-group">
-			<label  style="margin-left: 5px;">Text-Glow</label>
+			<label>Text-Glow</label>
 				<div class="form-fields">
 					<input id="ROFTextGlow" type="checkbox" onchange="changeGlow()" name="ROFTextGlow" value="{{ROFTextGlow}}" data-dtype="Boolean" checked="false"/>
 				</div>
-			<label style="margin-left: 5px;">Blend</label>
-			<select name="ROFTextBlend" id="ROFTextBlend" onchange="changeTextBlend()">
-			  <option value="normal">normal</option>
-			  <option value="color">color</option>
-			  <option value="color-burn">color-burn</option>
-			  <option value="darken">darken</option>
-			  <option value="difference">difference</option>
-			  <option value="exclusion">exclusion</option>
-			  <option value="hard-light">hard-light</option>
-			  <option value="hue">hue</option>
-			  <option value="lighten">lighten</option>
-			  <option value="luminosity">luminosity</option>
-			  <option value="multiply">multiply</option>
-			  <option value="overlay">overlay</option>
-			  <option value="revert">revert</option>
-			  <option value="saturation">saturation</option>
-			</select>
-		</div>
 		</div>
 		<div class="form-group">
-			<label>TextBG-Style</label>
-			<select name="TextBackStyle" id="TextBackStyle" onchange="changeTextBlend()">
-			  <option value="normal">None</option>
-			  <option value="#00000059">Dark</option>
-			  <option value="radial-gradient(#00000073, transparent)">Dark-Radial</option>
-			  <option value="radial-gradient(transparent, #00000073)">Dark-Vignette</option>
-			  <option value="#ffffff5e">Light</option>
-			  <option value="radial-gradient(#ffffff5e, transparent)">Light-Radial</option>
-			  <option value="radial-gradient(transparent, #ffffff63)">Light-Vignette</option>
-			</select>
-			<label style="margin-left: 5px;">Filter:</label>
-			<select name="TextBackFilter" id="TextBackFilter" onchange="changeTextBlend()">
-			  <option value="">None</option>
-			  <option value="blur(2px)">Blur</option>
-			  <option value="brightness(1.2)">Brightness</option>
-			  <option value="brightness(1.5)">Brightness (Strong)</option>
-			  <option value="brightness(0.8)">Darkness</option>
-			  <option value="brightness(0.5)">Darkness (Strong)</option>
-			  <option value="grayscale(1)">Grayscale</option>
-			  <option value="hue-rotate(45deg)">Hue-Rotate (45deg)</option>
-			  <option value="hue-rotate(15deg)">Hue-Rotate (15deg)</option>
-			  <option value="invert(1)">Invert</option>
-			</select>
-		</div>
-		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
 			<label>Background-Color</label>
 				<div class="form-fields">
 					<input id="ROFBackC" type="text" onchange="changeBackColor()" name="Backcolor" value="{{Backcolor}}" data-dtype="String" />
@@ -164,24 +71,6 @@
 		</div>
 
 		<script>
-		function changeTitleBlend(){
-			document.getElementById("cardpreview").style.background = document.getElementById("TitleBackStyle").value;
-			document.getElementById("cardpreview").style.backdropFilter = document.getElementById("TitleBackFilter").value;
-			document.getElementById("cardpreview").style.mixBlendMode = document.getElementById("ROFTitleBlend").value;
-		}
-		function changeTextBlend(){
-			document.getElementById("textpreview").style.background = document.getElementById("TextBackStyle").value;
-			document.getElementById("textpreview").style.backdropFilter = document.getElementById("TextBackFilter").value;
-			document.getElementById("textpreview").style.mixBlendMode = document.getElementById("ROFTextBlend").value;
-		}
-		function changeCardDS(){
-		 if(document.getElementById("ROFCardDS").checked){
-			document.getElementById("messagepreview").style.boxShadow = "0 7px 10px";
-		 }
-		 else{
-			document.getElementById("messagepreview").style.boxShadow = "";
-		 }
-		}
 		function changeGlow(){
 		 if(document.getElementById("ROFTitleGlow").checked){
 			document.getElementById("headerpreview").style.textShadow = "0px 0px 5px";

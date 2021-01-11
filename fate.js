@@ -53,7 +53,7 @@ Hooks.once('init', function() {
         hint: 'This is the text that is displayed above the chosen players name (you can define multiple titles if you seperate them with a ; )',
         scope: 'world',
         config: false,
-        default: 'Roll of Fate;Fate has been Decided;Judgement Day;Call of Abbathor',
+        default: 'Roll of Fate;Fate has been Decided;;Judgement Day;Call of Abbathor',
         type: String,
     });
     game.settings.register('fateroll', 'prefix', {
@@ -77,7 +77,7 @@ Hooks.once('init', function() {
         hint: 'You can change the title-color of the chat-message. You can use color-names or hex codes.',
         scope: 'world',
         config: false,
-        default: '#d4d4d4',
+        default: '#ffd700',
         type: String,
     });
 	game.settings.register('fateroll', 'textcolor', {
@@ -85,7 +85,7 @@ Hooks.once('init', function() {
         hint: 'You can change the text-color of the chat-message. You can use color-names or hex codes.',
         scope: 'world',
         config: false,
-        default: 'white',
+        default: 'black',
         type: String,
     });
 
@@ -144,63 +144,7 @@ Hooks.once('init', function() {
         config: true,
         default: true,
         type: Boolean,
-    });
-	game.settings.register('fateroll', 'dropshadow', {
-        name: 'Dropshadow',
-        hint: 'Check this if you want to enable the drop shadow',
-        scope: 'world',
-        config: false,
-        default: true,
-        type: Boolean,
     }); 
-	game.settings.register('fateroll', 'titleBlend', {
-        name: 'titleBlend',
-        hint: 'blending of the title is saved here',
-        scope: 'world',
-        config: false,
-        default: 'luminosity',
-        type: String,
-    });
-	game.settings.register('fateroll', 'titleBackStyle', {
-        name: 'titleBackStyle',
-        hint: 'titleBackStyle is saved here',
-        scope: 'world',
-        config: false,
-        default: 'luminosity',
-        type: String,
-    });
-	game.settings.register('fateroll', 'titleBackFilter', {
-        name: 'titleBackFilter',
-        hint: 'titleBackFilter is saved here',
-        scope: 'world',
-        config: false,
-        default: 'luminosity',
-        type: String,
-    });
-	game.settings.register('fateroll', 'textBlend', {
-        name: 'textBlend',
-        hint: 'blending of the text is saved here',
-        scope: 'world',
-        config: false,
-        default: 'normal',
-        type: String,
-    });
-	game.settings.register('fateroll', 'textBackStyle', {
-        name: 'textBackStyle',
-        hint: 'textBackStyle is saved here',
-        scope: 'world',
-        config: false,
-        default: 'luminosity',
-        type: String,
-    });
-	game.settings.register('fateroll', 'textBackFilter', {
-        name: 'textBackFilter',
-        hint: 'textBackFilter is saved here',
-        scope: 'world',
-        config: false,
-        default: 'luminosity',
-        type: String,
-    });
     console.log("Initialised Roll-Of-Fate-Module");
 	
 });
@@ -253,13 +197,6 @@ class Fatecontrol {
 		let sBackgroundstyle =  game.settings.get("fateroll", "backgroundstyle");
 		
 		let boolDisableTitle = game.settings.get("fateroll","boolDisableTitle");
-		let boolCardDS = game.settings.set('fateroll', 'dropshadow');
-		
-		let customstyle = ""
-		if(boolCardDS){
-			customstyle += 'box-shadow: 0 7px 10px;';
-		}
-		
 		let sBoolDisableTitle;
 		if(boolDisableTitle){
 			sBoolDisableTitle = "none";
@@ -290,12 +227,7 @@ class Fatecontrol {
 		}
 		
 		let sBackgroundImg = backgroundArray[Math.floor(Math.random() * backgroundArray.length)];
-		let sTitleBlend = game.settings.get('fateroll', 'titleBlend')
-		let sTitleBackStyle =  game.settings.get('fateroll', 'titleBackStyle');
-		let sTitleBackFilter = game.settings.get('fateroll', 'titleBackFilter');
-		let sTextBlend = game.settings.get('fateroll', 'textBlend')
-		let sTextBackStyle =  game.settings.get('fateroll', 'textBackStyle');
-		let sTextBackFilter = game.settings.get('fateroll', 'textBackFilter');
+		
 		let sSoundPath = game.settings.get("fateroll", "soundpath");
 		
 		let selectedstring = "";
@@ -329,21 +261,21 @@ class Fatecontrol {
 		else{
 			console.log(tokens);
 				let content = `
-				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="dnd5e chat-card item-card">
-				<header class="card-header flexrow" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};" class="dnd5e chat-card item-card">
+				<header class="card-header flexrow" style="display:${sBoolDisableTitle}">
 						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ;">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
 				</div>`;
 				let contentWithUsers = `
-				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="dnd5e chat-card item-card">
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};" class="dnd5e chat-card item-card">
 					${selectedstring}
-					<header class="card-header flexrow" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
+					<header class="card-header flexrow" style="display:${sBoolDisableTitle}">
 						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px ;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ;">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
 				</div>`;
 				
 			if(game.settings.get("fateroll", "displayselected")){
@@ -396,31 +328,12 @@ class ROFConfig extends FormApplication {
 		let TextColor = document.getElementById("ROFTextC").value;
 		let BackgroundColor = document.getElementById("ROFBackC").value;
 		let BackgroundStyle = document.getElementById("ROFbgstyle").value;
-		
-		let sFateText = document.getElementById("ROFTitlelist").value;
-		sFateText = sFateText.replace(/'\n'/g, ';');
-		
-		let sPrefix = document.getElementById("ROFPrefixList").value;
-		sPrefix = sPrefix.replace(/'\n'/g, ';');
-		
-		let sSuffix = document.getElementById("ROFSuffixList").value;
-		sSuffix = sSuffix.replace(/'\n'/g, ';');
-		
-		let fatetext = sFateText;
-		let prefix = sPrefix;
-		let suffix = sSuffix;
-		
-		game.settings.set('fateroll', 'dropshadow', document.getElementById("ROFCardDS").checked);
+		let fatetext = document.getElementById("ROFTitlelist").value.replaceAll("\n", ";");
+		let prefix = document.getElementById("ROFPrefixList").value.replaceAll("\n", ";");
+		let suffix = document.getElementById("ROFSuffixList").value.replaceAll("\n", ";");
+			
 		game.settings.set('fateroll', 'titlecolor', TitleColor);
-		game.settings.set('fateroll', 'titleBlend', document.getElementById("ROFTitleBlend").value);
-		game.settings.set('fateroll', 'titleBackStyle', document.getElementById("TitleBackStyle").value);
-		game.settings.set('fateroll', 'titleBackFilter', document.getElementById("TitleBackFilter").value);
-		
 		game.settings.set('fateroll', 'textcolor', TextColor);
-		game.settings.set('fateroll', 'textBlend', document.getElementById("ROFTextBlend").value);
-		game.settings.set('fateroll', 'textBackStyle', document.getElementById("TextBackStyle").value);
-		game.settings.set('fateroll', 'textBackFilter', document.getElementById("TextBackFilter").value);
-		
 		game.settings.set('fateroll', 'backgroundcolor', BackgroundColor);
 		game.settings.set('fateroll', 'backgroundstyle', BackgroundStyle);
 			
@@ -459,24 +372,7 @@ Hooks.on('canvasReady', function(){
  
 });
 Hooks.on('renderROFConfig', function(){
-	document.getElementById("ROFCardDS").checked = game.settings.get('fateroll', 'dropshadow');
 	document.getElementById("ROFTitleC").value = game.settings.get('fateroll', 'titlecolor');
-	document.getElementById("ROFTitleBlend").value = game.settings.get('fateroll', 'titleBlend');
-	document.getElementById("TitleBackStyle").value = game.settings.get('fateroll', 'titleBackStyle') ;
-	document.getElementById("TitleBackFilter").value = game.settings.get('fateroll', 'titleBackFilter');
-	
-		document.getElementById("cardpreview").style.mixBlendMode = document.getElementById("ROFTitleBlend").value;
-		document.getElementById("cardpreview").style.background = document.getElementById("TitleBackStyle").value;
-		document.getElementById("cardpreview").style.backdropFilter = document.getElementById("TitleBackFilter").value;
-	
-	document.getElementById("ROFTextBlend").value = game.settings.get('fateroll', 'textBlend');
-	document.getElementById("TextBackStyle").value = game.settings.get('fateroll', 'textBackStyle') ;
-	document.getElementById("TextBackFilter").value = game.settings.get('fateroll', 'textBackFilter');
-	
-		document.getElementById("textpreview").style.mixBlendMode = document.getElementById("ROFTextBlend").value;
-		document.getElementById("textpreview").style.background = document.getElementById("TextBackStyle").value;
-		document.getElementById("textpreview").style.backdropFilter = document.getElementById("TextBackFilter").value;
-
 	document.getElementById("headerpreview").style.color = game.settings.get('fateroll', 'titlecolor');
 	
 	document.getElementById("ROFTextC").value = game.settings.get('fateroll', 'textcolor');
@@ -485,19 +381,12 @@ Hooks.on('renderROFConfig', function(){
 	document.getElementById("ROFBackC").value = game.settings.get('fateroll', 'backgroundcolor');
 	document.getElementById("messagepreview").style.background = game.settings.get('fateroll', 'backgroundcolor');
 
-	let sFateText = game.settings.get("fateroll", "fatetext");
-	sFateText = sFateText.replace(/;/g, "\n");
-    let sROFPrefixList = game.settings.get("fateroll", "prefix");
-	sROFPrefixList = sROFPrefixList.replace(/;/g, "\n");
-	let sROFSuffixList = game.settings.get("fateroll", "suffix");
-	sROFSuffixList = sROFSuffixList.replace(/;/g, "\n");
+	document.getElementById("ROFTitlelist").value = game.settings.get("fateroll", "fatetext").replaceAll(";", "\n");
 	
+	document.getElementById("ROFPrefixList").value = game.settings.get("fateroll", "prefix").replaceAll(";", "\n");
 	
-	document.getElementById("ROFTitlelist").value = sFateText;
+	document.getElementById("ROFSuffixList").value = game.settings.get("fateroll", "suffix").replaceAll(";", "\n");
 	
-	document.getElementById("ROFPrefixList").value = sROFPrefixList;
-	
-	document.getElementById("ROFSuffixList").value = sROFSuffixList;
 	//let backgroundArray = [];
 		
 	if(game.settings.get("fateroll", "backgroundimg") != ""){
@@ -522,9 +411,6 @@ Hooks.on('renderROFConfig', function(){
 	document.getElementById("ROFTitleGlow").checked = game.settings.get('fateroll', 'ROFCardHeaderGlow');
 	document.getElementById("ROFTextGlow").checked = game.settings.get('fateroll', 'ROFCardTextGlow');
 	
-	if(document.getElementById("ROFCardDS").checked){
-		document.getElementById("messagepreview").style.boxShadow = "0 7px 10px";
-	}
 	if(document.getElementById("ROFTitleGlow").checked){
 		document.getElementById("headerpreview").style.textShadow = "0px 0px 5px";
 	}
