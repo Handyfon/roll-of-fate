@@ -253,13 +253,12 @@ class Fatecontrol {
 		let sBackgroundstyle =  game.settings.get("fateroll", "backgroundstyle");
 		
 		let boolDisableTitle = game.settings.get("fateroll","boolDisableTitle");
-		let boolCardDS = game.settings.set('fateroll', 'dropshadow');
+		let boolCardDS = game.settings.get('fateroll', 'dropshadow');
 		
 		let customstyle = ""
 		if(boolCardDS){
 			customstyle += 'box-shadow: 0 7px 10px;';
 		}
-		
 		let sBoolDisableTitle;
 		if(boolDisableTitle){
 			sBoolDisableTitle = "none";
@@ -398,13 +397,13 @@ class ROFConfig extends FormApplication {
 		let BackgroundStyle = document.getElementById("ROFbgstyle").value;
 		
 		let sFateText = document.getElementById("ROFTitlelist").value;
-		sFateText = sFateText.replace(/'\n'/g, ';');
+		sFateText = sFateText.replace(/(?:\r\n|\r|\n)/g, ';');
 		
 		let sPrefix = document.getElementById("ROFPrefixList").value;
-		sPrefix = sPrefix.replace(/'\n'/g, ';');
+		sPrefix = sPrefix.replace(/(?:\r\n|\r|\n)/g, ';');
 		
 		let sSuffix = document.getElementById("ROFSuffixList").value;
-		sSuffix = sSuffix.replace(/'\n'/g, ';');
+		sSuffix = sSuffix.replace(/(?:\r\n|\r|\n)/g, ';');
 		
 		let fatetext = sFateText;
 		let prefix = sPrefix;
@@ -459,6 +458,7 @@ Hooks.on('canvasReady', function(){
  
 });
 Hooks.on('renderROFConfig', function(){
+	//GET VALUES FROM SETTINGS
 	document.getElementById("ROFCardDS").checked = game.settings.get('fateroll', 'dropshadow');
 	document.getElementById("ROFTitleC").value = game.settings.get('fateroll', 'titlecolor');
 	document.getElementById("ROFTitleBlend").value = game.settings.get('fateroll', 'titleBlend');
@@ -484,7 +484,7 @@ Hooks.on('renderROFConfig', function(){
 
 	document.getElementById("ROFBackC").value = game.settings.get('fateroll', 'backgroundcolor');
 	document.getElementById("messagepreview").style.background = game.settings.get('fateroll', 'backgroundcolor');
-
+	
 	let sFateText = game.settings.get("fateroll", "fatetext");
 	sFateText = sFateText.replace(/;/g, "\n");
     let sROFPrefixList = game.settings.get("fateroll", "prefix");
