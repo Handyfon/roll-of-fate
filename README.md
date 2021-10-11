@@ -1,3 +1,4 @@
+<b>SUPPORT: https://discord.gg/gs5hAgxBx3</b>
 # Roll of Fate
 # You can find more details here: https://foundryvtt.com/packages/fateroll/
 Manifest: https://raw.githubusercontent.com/Handyfon/roll-of-fate/master/module.json
