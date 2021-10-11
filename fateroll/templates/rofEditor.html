@@ -1,0 +1,268 @@
+<form class="{{moduleName}}-form">
+    <div class="tab active" data-tab="general">
+		<div style="background: url(../ui/denim075.png) repeat;padding: 5px;margin-bottom: 10px;">
+		<div style="flex: 1;position: relative;inline-size: min-content;height: 0px;">
+		<label id="ROFBG1" style="display:none" class="ROFeditorBGButton" onclick="BG1()">BG1</label>
+		<label id="ROFBG2" style="display:none" class="ROFeditorBGButton" onclick="BG2()">BG2</label>
+		<label id="ROFBG3" style="display:none" class="ROFeditorBGButton" onclick="BG3()">BG3</label>
+		</div>
+				<li id="ROFPrevCard" class="chat-message message flexcol " style="margin-left: 20%;margin-right: 20%;">
+				<header class="message-header flexrow">
+					<h4 class="message-sender">Gamemaster</h4>
+					<span class="message-metadata">
+						<time class="message-timestamp">... ago</time>
+						<a class="button message-delete"><i class="fas fa-trash"></i></a>
+					</span>
+
+				</header>
+				<div class="message-content">
+					
+				<div id="messagepreview" style="background: ${sBackgroundColor}; background-size: ${sBackgroundstyle};" class="dnd5e chat-card item-card">
+								<header id="cardpreview" class="card-header flexrow">
+									<h3 id="headerpreview" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 0px ${sTextBackgroundColor};"><b>Header</b></h3>
+								</header>
+								</br>
+								<h3 id="textpreview" style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 0px ${sTextBackgroundColor};">[Prefix] Text [Suffix]</h3>
+				</div>
+				</div>
+				</li>
+		</div>
+		<div class="form-group">
+		<label>ROF-Drop Shadow</label>
+		<input id="ROFCardDS" type="checkbox" onchange="changeCardDS()" name="ROFCardDS" value="{{ROFCardDS}}" data-dtype="Boolean" checked="false"/>
+		</div>
+		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
+			<label>Title-Color</label>
+				<div class="form-fields">
+					<input id="ROFTitleC" type="text" onchange="changetitlecolor()" name="titlecolor" value="{{titlecolor}}" data-dtype="String" data-edit="titleColorSelector" />
+					<input id="ROFTitleCP" type="color" onchange="changetitleCP()"  name="titleColorSelector" value="{{titleColorSelector}}" data-edit="titlecolor"/>
+				</div>
+		</div>
+		<div class="form-group">
+			<label style="margin-left: 5px;">Title-Glow</label>
+				<div class="form-fields">
+					<input id="ROFTitleGlow" type="checkbox" onchange="changeGlow()" name="ROFTitleGlow" value="{{ROFTitleGlow}}" data-dtype="Boolean" checked="false"/>
+				</div>
+			<label style="margin-left: 5px;">Blend</label>
+			<select name="ROFTitleBlend" id="ROFTitleBlend" onchange="changeTitleBlend()">
+			  <option value="">normal</option>
+			  <option value="color">color</option>
+			  <option value="color-burn">color-burn</option>
+			  <option value="darken">darken</option>
+			  <option value="difference">difference</option>
+			  <option value="exclusion">exclusion</option>
+			  <option value="hard-light">hard-light</option>
+			  <option value="hue">hue</option>
+			  <option value="lighten">lighten</option>
+			  <option value="luminosity">luminosity</option>
+			  <option value="multiply">multiply</option>
+			  <option value="overlay">overlay</option>
+			  <option value="revert">revert</option>
+			  <option value="saturation">saturation</option>
+			  <option value="screen">screen</option>
+			  <option value="soft-light">soft-light</option>
+			</select>
+		</div>
+		<div class="form-group">
+			<label>TitleBG-Style</label>
+			<select name="TitleBackStyle" id="TitleBackStyle" onchange="changeTitleBlend()">
+			  <option value="">None</option>
+			  <option value="#00000059">Dark</option>
+			  <option value="radial-gradient(#00000073, transparent)">Dark-Radial</option>
+			  <option value="radial-gradient(transparent, #00000073)">Dark-Vignette</option>
+			  <option value="#ffffff5e">Light</option>
+			  <option value="radial-gradient(#ffffff5e, transparent)">Light-Radial</option>
+			  <option value="radial-gradient(transparent, #ffffff63)">Light-Vignette</option>
+			</select>
+			<label style="margin-left: 5px;">Filter:</label>
+			<select name="TitleBackFilter" id="TitleBackFilter" onchange="changeTitleBlend()">
+			  <option value="">None</option>
+			  <option value="blur(2px)">Blur</option>
+			  <option value="brightness(1.2)">Brightness</option>
+			  <option value="brightness(1.5)">Brightness (Strong)</option>
+			  <option value="brightness(0.8)">Darkness</option>
+			  <option value="brightness(0.5)">Darkness (Strong)</option>
+			  <option value="grayscale(1)">Grayscale</option>
+			  <option value="hue-rotate(45deg)">Hue-Rotate (45deg)</option>
+			  <option value="hue-rotate(15deg)">Hue-Rotate (15deg)</option>
+			  <option value="invert(1)">Invert</option>
+			  <option value="screen">screen</option>
+			  <option value="soft-light">soft-light</option>
+			</select>
+		</div>
+		
+		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
+			<label  style="margin-left: 5px;">Text-Color</label>
+				<div class="form-fields">
+					<input id="ROFTextC" type="text" onchange="changeTextColor()" name="Textcolor" value="{{Textecolor}}" data-dtype="String" />
+					<input id="ROFTextCP" type="color" onchange="changeTextCP()" name="TextColorSelector" value="{{TextColorSelector}}" data-edit="Textcolor"/>
+				</div>
+		</div>
+		<div class="form-group">
+			<label  style="margin-left: 5px;">Text-Glow</label>
+				<div class="form-fields">
+					<input id="ROFTextGlow" type="checkbox" onchange="changeGlow()" name="ROFTextGlow" value="{{ROFTextGlow}}" data-dtype="Boolean" checked="false"/>
+				</div>
+			<label style="margin-left: 5px;">Blend</label>
+			<select name="ROFTextBlend" id="ROFTextBlend" onchange="changeTextBlend()">
+			  <option value="normal">normal</option>
+			  <option value="color">color</option>
+			  <option value="color-burn">color-burn</option>
+			  <option value="darken">darken</option>
+			  <option value="difference">difference</option>
+			  <option value="exclusion">exclusion</option>
+			  <option value="hard-light">hard-light</option>
+			  <option value="hue">hue</option>
+			  <option value="lighten">lighten</option>
+			  <option value="luminosity">luminosity</option>
+			  <option value="multiply">multiply</option>
+			  <option value="overlay">overlay</option>
+			  <option value="revert">revert</option>
+			  <option value="saturation">saturation</option>
+			</select>
+		</div>
+		</div>
+		<div class="form-group">
+			<label>TextBG-Style</label>
+			<select name="TextBackStyle" id="TextBackStyle" onchange="changeTextBlend()">
+			  <option value="normal">None</option>
+			  <option value="#00000059">Dark</option>
+			  <option value="radial-gradient(#00000073, transparent)">Dark-Radial</option>
+			  <option value="radial-gradient(transparent, #00000073)">Dark-Vignette</option>
+			  <option value="#ffffff5e">Light</option>
+			  <option value="radial-gradient(#ffffff5e, transparent)">Light-Radial</option>
+			  <option value="radial-gradient(transparent, #ffffff63)">Light-Vignette</option>
+			</select>
+			<label style="margin-left: 5px;">Filter:</label>
+			<select name="TextBackFilter" id="TextBackFilter" onchange="changeTextBlend()">
+			  <option value="">None</option>
+			  <option value="blur(2px)">Blur</option>
+			  <option value="brightness(1.2)">Brightness</option>
+			  <option value="brightness(1.5)">Brightness (Strong)</option>
+			  <option value="brightness(0.8)">Darkness</option>
+			  <option value="brightness(0.5)">Darkness (Strong)</option>
+			  <option value="grayscale(1)">Grayscale</option>
+			  <option value="hue-rotate(45deg)">Hue-Rotate (45deg)</option>
+			  <option value="hue-rotate(15deg)">Hue-Rotate (15deg)</option>
+			  <option value="invert(1)">Invert</option>
+			</select>
+		</div>
+		<div class="form-group" style="border-top:1px solid; margin-top:10px; padding-top:10px;">
+			<label>Background-Color</label>
+				<div class="form-fields">
+					<input id="ROFBackC" type="text" onchange="changeBackColor()" name="Backcolor" value="{{Backcolor}}" data-dtype="String" />
+					<input id="ROFBackCP" type="color" onchange="changeBackCP()" name="BackColorSelector" value="{{BackColorSelector}}" data-edit="Backcolor"/>
+				</div>
+		</div>
+		<div class="form-group">
+			<label>Background-Size</label>
+			<select name="ROFbgstyle" id="ROFbgstyle" onchange="changeBackStyle()">
+			  <option value="auto">auto</option>
+			  <option value="contain">contain</option>
+			  <option value="cover">cover</option>
+			</select>
+		</div>
+
+		<script>
+		function changeTitleBlend(){
+			document.getElementById("cardpreview").style.background = document.getElementById("TitleBackStyle").value;
+			document.getElementById("cardpreview").style.backdropFilter = document.getElementById("TitleBackFilter").value;
+			document.getElementById("cardpreview").style.mixBlendMode = document.getElementById("ROFTitleBlend").value;
+		}
+		function changeTextBlend(){
+			document.getElementById("textpreview").style.background = document.getElementById("TextBackStyle").value;
+			document.getElementById("textpreview").style.backdropFilter = document.getElementById("TextBackFilter").value;
+			document.getElementById("textpreview").style.mixBlendMode = document.getElementById("ROFTextBlend").value;
+		}
+		function changeCardDS(){
+		 if(document.getElementById("ROFCardDS").checked){
+			document.getElementById("messagepreview").style.boxShadow = "0 7px 10px";
+		 }
+		 else{
+			document.getElementById("messagepreview").style.boxShadow = "";
+		 }
+		}
+		function changeGlow(){
+		 if(document.getElementById("ROFTitleGlow").checked){
+			document.getElementById("headerpreview").style.textShadow = "0px 0px 5px";
+		 }
+		 else{
+		 document.getElementById("headerpreview").style.textShadow = "0px 0px 0px";
+		 }
+		 if(document.getElementById("ROFTextGlow").checked){
+			document.getElementById("textpreview").style.textShadow = "0px 0px 5px";
+		 }
+		 else{
+		 document.getElementById("textpreview").style.textShadow = "0px 0px 0px";
+		 }
+		}
+		function BG1(){
+			let Background = "url('"+game.settings.get("fateroll", "backgroundimg")+"')"
+			document.getElementById("messagepreview").style.background = Background;
+			changeBackStyle();
+		}
+		function BG2(){
+			let Background = "url('"+game.settings.get("fateroll", "backgroundimg2")+"')"
+			document.getElementById("messagepreview").style.background = Background;
+			changeBackStyle();
+		}
+		function BG3(){
+			let Background = "url('"+game.settings.get("fateroll", "backgroundimg3")+"')"
+			document.getElementById("messagepreview").style.background = Background;
+			changeBackStyle();
+		}
+
+		function changetitlecolor(){
+			document.getElementById("headerpreview").style.color = document.getElementById("ROFTitleC").value;
+			document.getElementById("ROFTitleCP").value = document.getElementById("ROFTitleC").value;
+		}
+		function changetitleCP(){
+			document.getElementById("headerpreview").style.color = document.getElementById("ROFTitleCP").value;
+		}
+		function changeTextColor(){
+			document.getElementById("textpreview").style.color = document.getElementById("ROFTextC").value;
+			document.getElementById("ROFTextCP").value = document.getElementById("ROFTextC").value;
+		}
+		function changeTextCP(){
+			document.getElementById("textpreview").style.color = document.getElementById("ROFTextCP").value;
+		}
+
+		function changeBackColor(){
+			document.getElementById("messagepreview").style.background = document.getElementById("ROFBackC").value;
+			document.getElementById("ROFBackCP").value = document.getElementById("ROFBackC").value;
+		}
+		function changeBackCP(){
+			document.getElementById("messagepreview").style.background = document.getElementById("ROFBackCP").value;
+		}
+		function changeBackStyle(){
+			document.getElementById("messagepreview").style.backgroundSize = document.getElementById("ROFbgstyle").value;
+		}
+		</script>
+
+		<div class="ROFSettingsContent">
+			<h3><label for="{{moduleName}}-form-randomprefix">Title List:</label></h3>
+			<textarea id="ROFTitlelist" class="{{moduleName}}-form-ROFTitlelist" name="ROFTitlelist" id="{{moduleName}}-form-ROFTitlelist" cols="100" rows="10">{{ROFTitlelist}}</textarea>
+			
+			<h3><label for="{{moduleName}}-form-randomprefix">Prefix List:</label></h3>
+			<textarea id="ROFPrefixList" class="{{moduleName}}-form-ROFPrefixList" name="ROFPrefixList" id="{{moduleName}}-form-ROFPrefixList" cols="100" rows="10">{{ROFPrefixList}}</textarea>
+
+			<h3><label for="{{moduleName}}-form-randomsuffix">Suffix List:</label></h3>
+			<textarea id="ROFSuffixList" class="{{moduleName}}-form-ROFSuffixList" name="ROFSuffixList" id="{{moduleName}}-form-ROFSuffixList" cols="100" rows="10">{{ROFSuffixList}}</textarea>
+
+			<!--<h3><label for="{{moduleName}}-form-randombackground">Background List:</label></h3>
+			<textarea id="ROFBackgroundList" class="{{moduleName}}-form-ROFBackgroundList" name="ROFBackgroundList" id="{{moduleName}}-ROFBackgroundList" cols="100" rows="10">{{ROFBackgroundList}}</textarea>
+
+			<h3><label for="{{moduleName}}-form-randomsound">Sound List:</label></h3>
+			<textarea id="ROFSoundList" class="{{moduleName}}-form-ROFSoundList" name="ROFSoundList" id="{{moduleName}}-ROFSoundList" cols="100" rows="10">{{ROFSoundList}}</textarea>
+			-->
+
+		</div>
+		<footer style="position: absolute;bottom: 0px;width: 96%;background: #d2d0c4;">
+				<div class="form-group buttons-save">
+					<button type="submit" name="submit">
+						<i class="fas fa-save"></i> Save
+					</button>
+				</div>
+		</footer>
+	</div>
+</form>

@@ -1,0 +1,42 @@
+i#FATE-button:hover {
+    color: #ff7171;
+}
+.fa-yin-yang:before {
+    content: "\f6ad";
+    color: indianred;
+}
+#chat-controls .chat-control-icon {
+    flex: 0;
+    flex-basis: auto;
+}
+i#FATE-button:hover {
+    filter: saturate(0.5);
+}
+.ROFtokenname {
+    /* background: gold; */
+    padding: 2px;
+    color: white;
+    border-radius: 5px;
+    margin-right: 2px;
+}
+.ROFeditorBGButton {
+    padding: 5px;
+    width: 50px;
+    background: #ffffff40;
+    color: white;
+    border-radius: 3px;
+    font-size: 14px;
+    line-height: 28px;
+    font-family: "Signika", sans-serif;
+    margin: 0 1px;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+    align-items: flex-start;
+    cursor: default;
+    border: 1px solid;
+}
