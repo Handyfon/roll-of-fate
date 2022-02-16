@@ -328,21 +328,21 @@ class Fatecontrol {
 		else{
 			console.log(tokens);
 				let content = `
-				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="dnd5e chat-card item-card">
-				<header class="card-header flexrow" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
-						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="roll-of-fate">
+				<header class="rof-card-header" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
+						<h3 class="rof-cardtitle" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 class="rof-cardtext" style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
 				</div>`;
 				let contentWithUsers = `
-				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="dnd5e chat-card item-card">
+				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="roll-of-fate">
 					${selectedstring}
-					<header class="card-header flexrow" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
-						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px ;"><b>${sHeader}</b></h3>
+					<header class="rof-card-header" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
+						<h3 class="rof-cardtitle" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px ;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 class="rof-cardtext" style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
 				</div>`;
 				
 			if(game.settings.get("fateroll", "displayselected")){

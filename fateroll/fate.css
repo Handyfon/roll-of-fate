@@ -40,3 +40,41 @@ i#FATE-button:hover {
     cursor: default;
     border: 1px solid;
 }
+header#cardpreview {
+    place-content: center;
+}
+.rof-card-header {
+    align-items: center;
+    padding: 3px 0;
+    border-top: 2px groove #FFF;
+    border-bottom: 2px groove #FFF;
+}
+.rof-card-header img {
+  flex: 0 0 36px;
+  margin-right: 5px;
+}
+.rof-card-header h3 {
+  flex: 1;
+  margin: 0;
+  line-height: 36px;
+  font-family: "Modesto Condensed", "Palatino Linotype", serif;
+  font-size: 20px;
+  font-weight: 700;
+  place-content: center;
+}
+.roll-of-fate{
+    font-size: var(--font-size-14);
+    color: var(--color-text-dark-primary);
+    background: url(../ui/parchment.jpg) repeat;
+}
+
+/*TEMPORARY FIX FOR CHAT PORTRAITS*/
+h3.rof-cardtitle.chat-portrait-text-size-name {
+    color: white;
+}
+h3.rof-cardtext.chat-portrait-text-size-name {
+    margin-top: -17px;
+    padding: 10px;
+	justify-content: center;
+    color: white;
+}
