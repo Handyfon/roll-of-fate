@@ -207,18 +207,32 @@ Hooks.once('init', function() {
 
 class Fatecontrol {
 
-    static addChatControl() {
-        const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
+    static addChatControl() {        
         let tableNode = document.getElementById("FATE-button");
 
-        if (chatControlLeft && !tableNode) {
-            const chatControlLeftNode = chatControlLeft.firstElementChild;
-			const number = 4;
-            tableNode = document.createElement("label");
-            tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
-            tableNode.onclick = Fatecontrol.initializeFATE;
-            chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
-        }
+		if (game.modules.get("pf2e-dorako-ui")?.active) {
+			const chatDorakoRtButtons = document.getElementById("dorako-rt-buttons");
+			if (chatDorakoRtButtons && !tableNode) {
+				const chatDorakoRtButtonsNode = chatDorakoRtButtons.firstElementChild;
+				tableNode = document.createElement("button");
+				tableNode.setAttribute("data-id", "FATE-button");
+				tableNode.setAttribute("id", "FATE-button");
+				tableNode.setAttribute("class", "button");
+				tableNode.setAttribute("title", "Fate Roll");
+				tableNode.innerHTML = `<i class="fas fa-yin-yang"></i>`;
+				tableNode.onclick = Fatecontrol.initializeFATE;
+				chatDorakoRtButtons.insertBefore(tableNode, chatDorakoRtButtonsNode);
+			}
+		} else {
+			const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
+			if (chatControlLeft && !tableNode) {
+				const chatControlLeftNode = chatControlLeft.firstElementChild;
+				tableNode = document.createElement("label");
+				tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
+				tableNode.onclick = Fatecontrol.initializeFATE;
+				chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
+			}
+		}
     }
 	
     static initializeFATE() {
