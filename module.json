@@ -6,12 +6,12 @@
 	"author": "Handyfon#8390",
 	"esmodules": ["fate.js"],
 	"styles": ["fate.css"],
-	"socket": true,
+	 "socket": true,
     "url": "https://github.com/Handyfon/roll-of-fate/tree/master",
     "manifest": "https://raw.githubusercontent.com/Handyfon/roll-of-fate/master/module.json",
     "download": "https://github.com/Handyfon/roll-of-fate/raw/master/fate.zip",
 	"compatibility": {
-		"minium": "10",
+		"minimum": "10",
 		"verified": "10"
 	}
 }
