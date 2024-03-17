@@ -10,6 +10,8 @@
     "url": "https://github.com/Handyfon/roll-of-fate/tree/master",
     "manifest": "https://raw.githubusercontent.com/Handyfon/roll-of-fate/master/module.json",
     "download": "https://github.com/Handyfon/roll-of-fate/raw/master/fate.zip",
-	"minimumCoreVersion": "10",
-	"compatibleCoreVersion": "10"
+	"compatibility": {
+		"minimum": "10",
+		"verified": "10"
+	}
 }
