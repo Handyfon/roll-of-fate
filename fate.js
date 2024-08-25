@@ -301,10 +301,10 @@ class Fatecontrol {
 
 		for(let i = 0; i < tokens.length ; i++) {
 			if(i != (tokens.length -1)){
-			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].data.name +",</label>";
+			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].name +",</label>";
 			}
 			else{
-			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].data.name +"</label>";
+			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].name +"</label>";
 			}
 		}
 
@@ -333,7 +333,7 @@ class Fatecontrol {
 						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.name} ${sSuffix}</h3>
 				</div>`;
 				let contentWithUsers = `
 				<div data-roll-of-fate="true" style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="dnd5e chat-card item-card">
@@ -342,7 +342,7 @@ class Fatecontrol {
 						<h3 style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px ;"><b>${sHeader}</b></h3>
 					</header>
 					</br>
-					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					<h3 style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.name} ${sSuffix}</h3>
 				</div>`;
 
 			if(game.settings.get("fateroll", "displayselected")){
