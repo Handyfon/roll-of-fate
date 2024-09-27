@@ -1,12 +1,11 @@
 Hooks.once('init', function() {
-
     game.settings.registerMenu("fateroll", "fateroll", {
         name: "Roll of Fate Customizer",
         label: "Roll of Fate Customizer",
         hint: "Roll of Fate Customizer",
         icon: "fas fa-dice-d20",
         type: ROFConfig,
-        restricted: false
+        restricted: true
     });
 	game.settings.register('fateroll', 'displayselected', {
         name: 'Display selected players',
@@ -53,7 +52,7 @@ Hooks.once('init', function() {
         hint: 'This is the text that is displayed above the chosen players name (you can define multiple titles if you seperate them with a ; )',
         scope: 'world',
         config: false,
-        default: 'Roll of Fate;Fate has been Decided;;Judgement Day;Call of Abbathor',
+        default: 'Roll of Fate;Fate has been Decided',
         type: String,
     });
     game.settings.register('fateroll', 'prefix', {
@@ -77,7 +76,7 @@ Hooks.once('init', function() {
         hint: 'You can change the title-color of the chat-message. You can use color-names or hex codes.',
         scope: 'world',
         config: false,
-        default: '#d4d4d4',
+        default: '#ffea00',
         type: String,
     });
 	game.settings.register('fateroll', 'textcolor', {
@@ -97,30 +96,53 @@ Hooks.once('init', function() {
         default: 'black',
         type: String,
     });
-    game.settings.register('fateroll', 'backgroundimg', {
-        name: 'Background-Image',
-        hint: 'You can change the background-image of the chat-message. Put in an url. THIS WILL OVERWRITE THE BACKGROUND COLOR',
-        scope: 'world',
-        config: true,
-        default: 'https://media.comicbook.com/2020/09/frostmaiden-hed-1236619.jpeg',
-        type: String,
-    });
-    game.settings.register('fateroll', 'backgroundimg2', {
-        name: 'Background-Image - 2',
-        hint: 'If more than 1 background is used the modules will chose a background randomly',
-        scope: 'world',
-        config: true,
-        default: 'https://triumvene.com/content/images/2019/08/f54890248-1-1-.jpg',
-        type: String,
-    });
-    game.settings.register('fateroll', 'backgroundimg3', {
-        name: 'Background-Image - 3',
-        hint: 'If more than 1 background is used the modules will chose a background randomly',
-        scope: 'world',
-        config: true,
-        default: 'https://wallpaperaccess.com/full/1868730.jpg',
-        type: String,
-    });
+	game.settings.register('fateroll', 'backgroundimg', {
+		name: 'Background Image',
+		hint: 'You can change the background image of the chat message. THIS WILL OVERWRITE THE BACKGROUND COLOR',
+		scope: 'world',
+		config: true,
+		default: 'modules/fateroll/images/FateStrings.webp',
+		type: String,
+		filePicker: true
+	});
+	
+	game.settings.register('fateroll', 'backgroundimg2', {
+		name: 'Background Image - 2',
+		hint: 'If more than 1 background is used the module will choose a background randomly.',
+		scope: 'world',
+		config: true,
+		default: 'modules/fateroll/images/FateTower.webp',
+		type: String,
+		filePicker: true
+	});
+	
+	game.settings.register('fateroll', 'backgroundimg3', {
+		name: 'Background Image - 3',
+		hint: 'If more than 1 background is used the module will choose a background randomly.',
+		scope: 'world',
+		config: true,
+		default: 'modules/fateroll/images/Galaxy.webp',
+		type: String,
+		filePicker: true
+	});
+	game.settings.register('fateroll', 'backgroundimg4', {
+		name: 'Background Image - 4',
+		hint: 'If more than 1 background is used the module will choose a background randomly.',
+		scope: 'world',
+		config: true,
+		default: '',
+		type: String,
+		filePicker: true
+	});
+	game.settings.register('fateroll', 'backgroundimg5', {
+		name: 'Background Image - 5',
+		hint: 'If more than 1 background is used the module will choose a background randomly.',
+		scope: 'world',
+		config: true,
+		default: '',
+		type: String,
+		filePicker: true
+	});
     game.settings.register('fateroll', 'backgroundstyle', {
         name: 'Background Style',
         hint: 'Choose a Style for your background',
@@ -136,6 +158,7 @@ Hooks.once('init', function() {
         config: true,
         default: 'sounds/dice.wav',
         type: String,
+		filePicker: true
     }); 
 	game.settings.register('fateroll', 'hidebutton', {
         name: 'Hide-Button for non-GMs',
@@ -158,7 +181,7 @@ Hooks.once('init', function() {
         hint: 'blending of the title is saved here',
         scope: 'world',
         config: false,
-        default: 'luminosity',
+        default: 'hard-light',
         type: String,
     });
 	game.settings.register('fateroll', 'titleBackStyle', {
@@ -166,7 +189,7 @@ Hooks.once('init', function() {
         hint: 'titleBackStyle is saved here',
         scope: 'world',
         config: false,
-        default: 'luminosity',
+        default: 'Dark',
         type: String,
     });
 	game.settings.register('fateroll', 'titleBackFilter', {
@@ -174,7 +197,7 @@ Hooks.once('init', function() {
         hint: 'titleBackFilter is saved here',
         scope: 'world',
         config: false,
-        default: 'luminosity',
+        default: 'Darkness (Strong)',
         type: String,
     });
 	game.settings.register('fateroll', 'textBlend', {
@@ -182,7 +205,7 @@ Hooks.once('init', function() {
         hint: 'blending of the text is saved here',
         scope: 'world',
         config: false,
-        default: 'normal',
+        default: 'hard-light',
         type: String,
     });
 	game.settings.register('fateroll', 'textBackStyle', {
@@ -190,7 +213,7 @@ Hooks.once('init', function() {
         hint: 'textBackStyle is saved here',
         scope: 'world',
         config: false,
-        default: 'luminosity',
+        default: 'Dark',
         type: String,
     });
 	game.settings.register('fateroll', 'textBackFilter', {
@@ -198,7 +221,7 @@ Hooks.once('init', function() {
         hint: 'textBackFilter is saved here',
         scope: 'world',
         config: false,
-        default: 'luminosity',
+        default: 'Darkness (Strong)',
         type: String,
     });
     console.log("Initialised Roll-Of-Fate-Module");
@@ -208,17 +231,31 @@ Hooks.once('init', function() {
 class Fatecontrol {
 
     static addChatControl() {
-        const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
         let tableNode = document.getElementById("FATE-button");
 
-        if (chatControlLeft && !tableNode) {
-            const chatControlLeftNode = chatControlLeft.firstElementChild;
-			const number = 4;
-            tableNode = document.createElement("label");
-            tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
-            tableNode.onclick = Fatecontrol.initializeFATE;
-            chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
-        }
+		if (game.modules.get("pf2e-dorako-ui")?.active) {
+			const chatDorakoRtButtons = document.getElementById("dorako-rt-buttons");
+			if (chatDorakoRtButtons && !tableNode) {
+				const chatDorakoRtButtonsNode = chatDorakoRtButtons.firstElementChild;
+				tableNode = document.createElement("button");
+				tableNode.setAttribute("data-id", "FATE-button");
+				tableNode.setAttribute("id", "FATE-button");
+				tableNode.setAttribute("class", "button");
+				tableNode.setAttribute("title", "Fate Roll");
+				tableNode.innerHTML = `<i class="fas fa-yin-yang"></i>`;
+				tableNode.onclick = Fatecontrol.initializeFATE;
+				chatDorakoRtButtons.insertBefore(tableNode, chatDorakoRtButtonsNode);
+			}
+		} else {
+			const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
+			if (chatControlLeft && !tableNode) {
+				const chatControlLeftNode = chatControlLeft.firstElementChild;
+				tableNode = document.createElement("label");
+				tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
+				tableNode.onclick = Fatecontrol.initializeFATE;
+				chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
+			}
+		}
     }
 	
     static initializeFATE() {
@@ -287,6 +324,12 @@ class Fatecontrol {
 		if(game.settings.get("fateroll", "backgroundimg3") != ""){
 			backgroundArray.push(game.settings.get("fateroll", "backgroundimg3"));
 		}
+		if(game.settings.get("fateroll", "backgroundimg4") != ""){
+			backgroundArray.push(game.settings.get("fateroll", "backgroundimg4"));
+		}
+		if(game.settings.get("fateroll", "backgroundimg5") != ""){
+			backgroundArray.push(game.settings.get("fateroll", "backgroundimg5"));
+		}
 		
 		let sBackgroundImg = backgroundArray[Math.floor(Math.random() * backgroundArray.length)];
 		let sTitleBlend = game.settings.get('fateroll', 'titleBlend')
@@ -301,15 +344,27 @@ class Fatecontrol {
 		
 		for(let i = 0; i < tokens.length ; i++) {
 			if(i != (tokens.length -1)){
-			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].data.name +",</label>";
+			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].name +",</label>";
 			}
 			else{
-			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].data.name +"</label>";
+			selectedstring = selectedstring + "<label class='ROFtokenname'>" + tokens[i].name +"</label>";
 			}
 		}
 		
 		let blind;
 		let whisper;
+		
+		let header = `<header class="rof-card-header" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
+						<h3 class="rof-cardtitle" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
+					  </header>`
+		if(sHeader == "")
+			header="";
+		
+		if(selectedstring == "" || !game.settings.get("fateroll", "displayselected"))
+			selectedstring="";
+		else{
+			selectedstring='<div class="faterollSelectedStrong" style="color:'+sTextColor+'">'+selectedstring+'</div>';
+		}
 		
 		let rollMode;
 		  rollMode = rollMode || game.settings.get("core", "rollMode");
@@ -329,56 +384,26 @@ class Fatecontrol {
 			console.log(tokens);
 				let content = `
 				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="roll-of-fate">
-				<header class="rof-card-header" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
-						<h3 class="rof-cardtitle" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px;"><b>${sHeader}</b></h3>
-					</header>
-					</br>
-					<h3 class="rof-cardtext" style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
-				</div>`;
-				let contentWithUsers = `
-				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="roll-of-fate">
 					${selectedstring}
-					<header class="rof-card-header" style="display:${sBoolDisableTitle}; mix-blend-mode:${sTitleBlend}; background: ${sTitleBackStyle}; backdrop-filter: ${sTitleBackFilter};">
-						<h3 class="rof-cardtitle" style="text-align: center;color: ${sTitleColor} !important;font-family: inherit; text-shadow: 0 0 ${vTitleGlow}px ;"><b>${sHeader}</b></h3>
-					</header>
-					</br>
-					<h3 class="rof-cardtext" style="color:${sTextColor}; margin-top: -16px;padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} ${randomtoken.data.name} ${sSuffix}</h3>
+					${header}	
+					<h3 class="rof-cardtext" style="color:${sTextColor};padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} <label class="ROFTokenName"><b>${randomtoken.name}</b></label> ${sSuffix}</h3>
 				</div>`;
-				
-			if(game.settings.get("fateroll", "displayselected")){
-					ChatMessage.create({
-					user: game.user._id,
-					content: contentWithUsers,
-					whisper: whisper,
-					blind: blind,
-					sound: sSoundPath,
-					flags: {
-						darksheet: {
-						outcome: 'table'
-						}
+			ChatMessage.create({
+				user: game.user._id,
+				content: content,
+				whisper: whisper,
+				blind: blind,
+				sound: sSoundPath,
+				flags: {
+					fateroll: {
+					fateroll: 'fate'
 					}
-					});
-			}
-			else
-			{
-					ChatMessage.create({
-					user: game.user._id,
-					content: content,
-					whisper: whisper,
-					blind: blind,
-					sound: sSoundPath,
-					flags: {
-						darksheet: {
-						outcome: 'table'
-						}
-					}
-					});
-			}
+				}
+			});
 		}
 	}
 }
 class ROFConfig extends FormApplication {
-
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             title: "Roll of Fate Customizer",
@@ -456,6 +481,10 @@ Hooks.on('canvasReady', function(){
 	console.log("FATE NOT SET");
 	}
  
+});
+Hooks.on("createChatMessage", async (msg) => { 
+    console.log(msg);
+    console.log(msg.flags);
 });
 Hooks.on('renderROFConfig', function(){
 	//GET VALUES FROM SETTINGS

@@ -2,14 +2,16 @@
 	"name": "fateroll",
 	"title": "Roll of Fate",
 	"description": "Blame PC deaths on the system",
-	"version": "10.1",
+	"version": "12.0",
 	"author": "Handyfon#8390",
 	"esmodules": ["fate.js"],
 	"styles": ["fate.css"],
-	 "socket": true,
+	"socket": true,
     "url": "https://github.com/Handyfon/roll-of-fate/tree/master",
     "manifest": "https://raw.githubusercontent.com/Handyfon/roll-of-fate/master/module.json",
     "download": "https://github.com/Handyfon/roll-of-fate/raw/master/fate.zip",
-	"minimumCoreVersion": "10",
-	"compatibleCoreVersion": "10"
+	"compatibility": {
+		"minimum": "11",
+		"verified": "12"
+	}
 }
