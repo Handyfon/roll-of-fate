@@ -22,7 +22,23 @@ Hooks.once('init', function() {
         config: true,
         default: false,
         type: Boolean,
-    }); 
+    });
+	game.settings.register('fateroll', 'usePlayerColorGradient', {
+		name: 'Use Player Color Gradient',
+		hint: 'If the selected token is owned by a player, use their user color as background gradient (color → black).',
+		scope: 'world',
+		config: true,
+		default: false,
+		type: Boolean,
+	});	 
+	game.settings.register('fateroll', 'disableMessageHeader', {
+		name: 'Disable Message Header',
+		hint: 'Hides the header (name, time, options button) for fate messages in chat.',
+		scope: 'world',
+		config: true,
+		default: true,
+		type: Boolean,
+	});
 	game.settings.register('fateroll', 'boolDisableTitle', {
         name: 'Disable Title',
         hint: 'Disables the title of the chat card.',
@@ -224,39 +240,107 @@ Hooks.once('init', function() {
         default: 'Darkness (Strong)',
         type: String,
     });
+	game.settings.register('fateroll', 'useSequencerEffects', {
+		name: 'Use Sequencer Effects',
+		hint: 'Plays a visual effect on the selected token if Sequencer is installed.',
+		scope: 'world',
+		config: true,
+		default: false,
+		type: Boolean
+	});
     console.log("Initialised Roll-Of-Fate-Module");
 	
 });
 
-class Fatecontrol {
+Hooks.on("renderChatMessage", (message, html, data) => {
+	if (!game.modules.get("sequencer")?.active) return;
+	// Player Color Gradient + Sequencer Glow
+	if (game.settings.get('fateroll', 'usePlayerColorGradient')) {
+		const div = html[0].querySelector('.roll-of-fate');
+		const msgEl = html[0].closest('.message');
+		const tokenId = div?.querySelector('.rof-token-link')?.dataset?.tokenId;
+		const token = canvas.tokens.get(tokenId);
+		const actor = token?.actor;
 
-    static addChatControl() {
-        let tableNode = document.getElementById("FATE-button");
+		if (actor) {
+			const user = game.users.find(u => u.character?.id === actor.id && u.active);
+			if (user && msgEl) {
+				const color = user.color || "#ffaa00";
+				msgEl.style.setProperty('--rof-user-color', color);
+				msgEl.style.setProperty("background", `linear-gradient(90deg, ${color}, black)`);
 
-		if (game.modules.get("pf2e-dorako-ui")?.active) {
-			const chatDorakoRtButtons = document.getElementById("dorako-rt-buttons");
-			if (chatDorakoRtButtons && !tableNode) {
-				const chatDorakoRtButtonsNode = chatDorakoRtButtons.firstElementChild;
-				tableNode = document.createElement("button");
-				tableNode.setAttribute("data-id", "FATE-button");
-				tableNode.setAttribute("id", "FATE-button");
-				tableNode.setAttribute("class", "button");
-				tableNode.setAttribute("title", "Fate Roll");
-				tableNode.innerHTML = `<i class="fas fa-yin-yang"></i>`;
-				tableNode.onclick = Fatecontrol.initializeFATE;
-				chatDorakoRtButtons.insertBefore(tableNode, chatDorakoRtButtonsNode);
-			}
-		} else {
-			const chatControlLeft = document.getElementsByClassName("chat-control-icon")[0];
-			if (chatControlLeft && !tableNode) {
-				const chatControlLeftNode = chatControlLeft.firstElementChild;
-				tableNode = document.createElement("label");
-				tableNode.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black;margin-right: 5px;"></i>`;
-				tableNode.onclick = Fatecontrol.initializeFATE;
-				chatControlLeft.insertBefore(tableNode, chatControlLeftNode);
+				if (typeof Sequencer !== "undefined" && token) {
+					new Sequence()
+						.effect()
+						.atLocation(token)
+						.attachTo(token)
+						.persist()
+						.name("fateroll-glow")
+						.filter("Glow", {
+							color,
+							distance: 10,
+							outerStrength: 5,
+							innerStrength: 0,
+							quality: 0.5
+						})
+						.scaleIn(0, 500, { ease: "easeOutCubic" })
+						.fadeOut(500)
+						.duration(2000)
+						.play();
+				}
 			}
 		}
-    }
+	}
+});
+
+Hooks.on("renderChatMessage", (message, html, data) => {
+	if (game.settings.get('fateroll', 'disableMessageHeader') && html[0].querySelector('.roll-of-fate')) {
+		html[0].querySelector('.message-header')?.style.setProperty("display", "none");
+	}
+	html[0].querySelectorAll(".rof-token-link").forEach(el => {
+		el.addEventListener("click", ev => {
+			const tokenId = ev.currentTarget.dataset.tokenId;
+			const token = canvas.tokens.get(tokenId);
+			if (token) canvas.animatePan({ x: token.x, y: token.y, scale: 1.5 });
+		});
+	});
+
+	if (game.settings.get('fateroll', 'usePlayerColorGradient')) {
+		const div = html[0].querySelector('.roll-of-fate');
+		const msgEl = html[0].closest('.message');
+		const tokenId = div?.querySelector('.rof-token-link')?.dataset?.tokenId;
+		const token = canvas.tokens.get(tokenId);
+		const actor = token?.actor;
+		console.log(actor);
+		if (actor) {
+			const user = game.users.find(u => u.character?.id === actor.id && u.active);
+			if (user && msgEl) {
+				msgEl.style.setProperty('--rof-user-color', user.color);
+			}
+		}
+	}
+});
+class Fatecontrol {
+
+	static addChatControl() {
+		const rollPrivacy = document.getElementById("roll-privacy");
+		if (rollPrivacy && !document.getElementById("FATE-button-privacy")) {
+			const newButton = document.createElement("button");
+			newButton.setAttribute("id", "FATE-button-privacy");
+			newButton.setAttribute("type", "button");
+			newButton.setAttribute("aria-label", "Fate Roll");
+			newButton.setAttribute("data-tooltip", "Fate Roll");
+			newButton.classList.add("ui-control", "icon");
+		
+			const icon = document.createElement("i");
+			icon.classList.add("fa-solid", "fa-yin-yang");
+			newButton.appendChild(icon);
+		
+			newButton.onclick = Fatecontrol.initializeFATE;
+			rollPrivacy.insertBefore(newButton, rollPrivacy.firstChild);
+		}
+	}
+	
 	
     static initializeFATE() {
 		event.preventDefault();
@@ -381,13 +465,18 @@ class Fatecontrol {
 			console.log("Roll of Fate | No tokens selected");
 		}
 		else{
-			console.log(tokens);
+			//console.log(tokens);
 				let content = `
+				${selectedstring}
 				<div style="background: ${sBackgroundColor}; background-image: url(${sBackgroundImg}); background-size: ${sBackgroundstyle};${customstyle}" class="roll-of-fate">
-					${selectedstring}
 					${header}	
-					<h3 class="rof-cardtext" style="color:${sTextColor};padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">${sPrefix} <label class="ROFTokenName"><b>${randomtoken.name}</b></label> ${sSuffix}</h3>
-				</div>`;
+					<h3 class="rof-cardtext" style="color:${sTextColor};padding: 10px;text-align: center;text-shadow: 0 0 ${vTextGlow}px ; mix-blend-mode:${sTextBlend}; background: ${sTextBackStyle}; backdrop-filter: ${sTextBackFilter};">
+						${sPrefix} 
+						<a class="rof-token-link" data-token-id="${randomtoken.id}" style="cursor: pointer; font-weight: bold; color: ${sTextColor}; text-decoration: underline;">${randomtoken.name}</a> 
+						${sSuffix}
+					</h3>
+				</div>
+				`;
 			ChatMessage.create({
 				user: game.user._id,
 				content: content,
@@ -482,10 +571,7 @@ Hooks.on('canvasReady', function(){
 	}
  
 });
-Hooks.on("createChatMessage", async (msg) => { 
-    console.log(msg);
-    console.log(msg.flags);
-});
+
 Hooks.on('renderROFConfig', function(){
 	//GET VALUES FROM SETTINGS
 	document.getElementById("ROFCardDS").checked = game.settings.get('fateroll', 'dropshadow');

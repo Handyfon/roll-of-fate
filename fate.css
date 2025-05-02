@@ -3,7 +3,6 @@ i#FATE-button:hover {
 }
 .fa-yin-yang:before {
     content: "\f6ad";
-    color: indianred;
 }
 #chat-controls .chat-control-icon {
     flex: 0;
@@ -58,6 +57,7 @@ h3.rof-cardtitle {
 header.rof-card-header {
     border: none;
     border-bottom: 1px solid white;
+    display:none;
 }
 .rof-card-header h3 {
   flex: 1;
@@ -68,9 +68,12 @@ header.rof-card-header {
   font-weight: 700;
   place-content: center;
 }
+
 h3.rof-cardtext {
     border: unset;
     margin-bottom: 2px;
+    font-size: medium;
+    margin: unset;
 }
 .roll-of-fate{
     font-size: var(--font-size-14);
@@ -90,10 +93,19 @@ h3.rof-cardtext.chat-portrait-text-size-name {
 .chat-message:has(.roll-of-fate) {
     border: unset;
     border-radius: 0px;
-    background: linear-gradient(145deg, rgb(30 30 30) 0%, rgb(0 0 0) 100%);
+    background: black;
 }
-.chat-message:has(.roll-of-fate) .message-header {
-   color:white;
+.message:has(.roll-of-fate)::before {
+	background-image: unset !important;
+    border: 1px solid var(--rof-user-color) !important;
+    border-radius: 0;
+}
+
+.chat-message:has(.roll-of-fate) span.title {
+	color: white !important;
+}
+.chat-message:has(.roll-of-fate) span.subtitle {
+	color: rgb(207, 207, 207) !important;
 }
 li#ROFPrevCard{
 	border: unset;
@@ -101,8 +113,10 @@ li#ROFPrevCard{
     background: linear-gradient(145deg, rgb(30 30 30) 0%, rgb(0 0 0) 100%);
 }
 .faterollSelectedStrong {
-    background: #000000a6;
     text-align-last: center;
+    margin-top: -15px; 
+    font-size: smaller;
+    text-align: -webkit-center;
 }
 .ROFtokenname {
     border-radius: 5px;
@@ -110,4 +124,17 @@ li#ROFPrevCard{
     background: #000000a6;
     color:inherit;
     padding: 2fr;
+}
+button#FATE-button-privacy {
+    margin-bottom: 10px;
+    border-color: #ffffff !important;
+    border-bottom: solid 1px;
+    color: #ffffff !important;
+    border-radius: 9px;
+    border-right: 1px solid;
+}
+a.rof-token-link {
+    background: #9d8b01;
+    padding: 0px 5px;
+    border-radius: 5px;
 }
