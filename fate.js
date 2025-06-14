@@ -322,25 +322,48 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 });
 class Fatecontrol {
 
-	static addChatControl() {
+static addChatControl() {
+	const existing = document.getElementById("FATE-button");
+		if (existing) return;
+
+		let button;
+
+		// dorako-ui
+		const dorako = document.getElementById("dorako-rt-buttons");
+		if (dorako) {
+			button = document.createElement("button");
+			button.id = "FATE-button";
+			button.classList.add("button");
+			button.title = "Fate Roll";
+			button.innerHTML = `<i class="fas fa-yin-yang"></i>`;
+			button.onclick = Fatecontrol.initializeFATE;
+			dorako.insertBefore(button, dorako.firstChild);
+			return;
+		}
+
+		// v13
 		const rollPrivacy = document.getElementById("roll-privacy");
-		if (rollPrivacy && !document.getElementById("FATE-button-privacy")) {
-			const newButton = document.createElement("button");
-			newButton.setAttribute("id", "FATE-button-privacy");
-			newButton.setAttribute("type", "button");
-			newButton.setAttribute("aria-label", "Fate Roll");
-			newButton.setAttribute("data-tooltip", "Fate Roll");
-			newButton.classList.add("ui-control", "icon");
-		
-			const icon = document.createElement("i");
-			icon.classList.add("fa-solid", "fa-yin-yang");
-			newButton.appendChild(icon);
-		
-			newButton.onclick = Fatecontrol.initializeFATE;
-			rollPrivacy.insertBefore(newButton, rollPrivacy.firstChild);
+		if (rollPrivacy) {
+			button = document.createElement("button");
+			button.id = "FATE-button";
+			button.classList.add("ui-control", "icon");
+			button.setAttribute("aria-label", "Fate Roll");
+			button.setAttribute("data-tooltip", "Fate Roll");
+			button.innerHTML = `<i class="fas fa-yin-yang"></i>`;
+			button.onclick = Fatecontrol.initializeFATE;
+			rollPrivacy.insertBefore(button, rollPrivacy.firstChild);
+			return;
+		}
+
+		// v12
+		const legacyTarget = document.getElementsByClassName("chat-control-icon")[0];
+		if (legacyTarget) {
+			const label = document.createElement("label");
+			label.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black; margin-right: 5px;"></i>`;
+			label.onclick = Fatecontrol.initializeFATE;
+			legacyTarget.insertBefore(label, legacyTarget.firstChild);
 		}
 	}
-	
 	
     static initializeFATE() {
 		event.preventDefault();

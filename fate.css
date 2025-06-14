@@ -138,3 +138,11 @@ a.rof-token-link {
     padding: 0px 5px;
     border-radius: 5px;
 }
+#FATE-button:hover {
+	color: #ff7171;
+	filter: saturate(0.5);
+}
+
+#FATE-button i.fa-yin-yang::before {
+	color: indianred;
+}
