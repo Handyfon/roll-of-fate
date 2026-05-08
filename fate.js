@@ -1,3 +1,19 @@
+const rofMergeObject = (...args) => {
+	const mergeObjectFn = globalThis.foundry?.utils?.mergeObject || globalThis.mergeObject;
+	return mergeObjectFn(...args);
+};
+
+function rofGetHtmlElement(html) {
+	return html instanceof HTMLElement ? html : html?.[0] || html?.element?.[0] || null;
+}
+
+function rofGetCanvasToken(tokenId) {
+	return canvas?.tokens?.get?.(tokenId) || canvas?.tokens?.placeables?.find?.((token) => token.id === tokenId) || null;
+}
+
+let rofChatControlObserver = null;
+let rofChatControlRetry = null;
+
 Hooks.once('init', function() {
     game.settings.registerMenu("fateroll", "fateroll", {
         name: "Roll of Fate Customizer",
@@ -254,12 +270,14 @@ Hooks.once('init', function() {
 
 Hooks.on("renderChatMessage", (message, html, data) => {
 	if (!game.modules.get("sequencer")?.active) return;
+	const root = rofGetHtmlElement(html);
+	if (!root) return;
 	// Player Color Gradient + Sequencer Glow
 	if (game.settings.get('fateroll', 'usePlayerColorGradient')) {
-		const div = html[0].querySelector('.roll-of-fate');
-		const msgEl = html[0].closest('.message');
+		const div = root.querySelector('.roll-of-fate');
+		const msgEl = root.closest('.message');
 		const tokenId = div?.querySelector('.rof-token-link')?.dataset?.tokenId;
-		const token = canvas.tokens.get(tokenId);
+		const token = rofGetCanvasToken(tokenId);
 		const actor = token?.actor;
 
 		if (actor) {
@@ -294,22 +312,24 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 });
 
 Hooks.on("renderChatMessage", (message, html, data) => {
-	if (game.settings.get('fateroll', 'disableMessageHeader') && html[0].querySelector('.roll-of-fate')) {
-		html[0].querySelector('.message-header')?.style.setProperty("display", "none");
+	const root = rofGetHtmlElement(html);
+	if (!root) return;
+	if (game.settings.get('fateroll', 'disableMessageHeader') && root.querySelector('.roll-of-fate')) {
+		root.querySelector('.message-header')?.style.setProperty("display", "none");
 	}
-	html[0].querySelectorAll(".rof-token-link").forEach(el => {
+	root.querySelectorAll(".rof-token-link").forEach(el => {
 		el.addEventListener("click", ev => {
 			const tokenId = ev.currentTarget.dataset.tokenId;
-			const token = canvas.tokens.get(tokenId);
+			const token = rofGetCanvasToken(tokenId);
 			if (token) canvas.animatePan({ x: token.x, y: token.y, scale: 1.5 });
 		});
 	});
 
 	if (game.settings.get('fateroll', 'usePlayerColorGradient')) {
-		const div = html[0].querySelector('.roll-of-fate');
-		const msgEl = html[0].closest('.message');
+		const div = root.querySelector('.roll-of-fate');
+		const msgEl = root.closest('.message');
 		const tokenId = div?.querySelector('.rof-token-link')?.dataset?.tokenId;
-		const token = canvas.tokens.get(tokenId);
+		const token = rofGetCanvasToken(tokenId);
 		const actor = token?.actor;
 		console.log(actor);
 		if (actor) {
@@ -322,37 +342,57 @@ Hooks.on("renderChatMessage", (message, html, data) => {
 });
 class Fatecontrol {
 
+static shouldShowButton() {
+	return !game.settings.get('fateroll', 'hidebutton') || game.user.isGM;
+}
+
+static createButton(extraClasses = []) {
+	const button = document.createElement("button");
+	button.id = "FATE-button";
+	button.type = "button";
+	button.classList.add(...extraClasses);
+	button.setAttribute("aria-label", "Fate Roll");
+	button.setAttribute("data-tooltip", "Fate Roll");
+	button.title = "Fate Roll";
+	button.innerHTML = `<i class="fas fa-yin-yang"></i>`;
+	button.addEventListener("click", (event) => Fatecontrol.initializeFATE(event));
+	return button;
+}
+
 static addChatControl() {
+	if (!Fatecontrol.shouldShowButton()) return true;
 	const existing = document.getElementById("FATE-button");
-		if (existing) return;
+		if (existing) return true;
 
 		let button;
 
 		// dorako-ui
 		const dorako = document.getElementById("dorako-rt-buttons");
 		if (dorako) {
-			button = document.createElement("button");
-			button.id = "FATE-button";
-			button.classList.add("button");
-			button.title = "Fate Roll";
-			button.innerHTML = `<i class="fas fa-yin-yang"></i>`;
-			button.onclick = Fatecontrol.initializeFATE;
+			button = Fatecontrol.createButton(["button"]);
 			dorako.insertBefore(button, dorako.firstChild);
-			return;
+			return true;
 		}
 
 		// v13
 		const rollPrivacy = document.getElementById("roll-privacy");
 		if (rollPrivacy) {
-			button = document.createElement("button");
-			button.id = "FATE-button";
-			button.classList.add("ui-control", "icon");
-			button.setAttribute("aria-label", "Fate Roll");
-			button.setAttribute("data-tooltip", "Fate Roll");
-			button.innerHTML = `<i class="fas fa-yin-yang"></i>`;
-			button.onclick = Fatecontrol.initializeFATE;
+			button = Fatecontrol.createButton(["ui-control", "icon"]);
 			rollPrivacy.insertBefore(button, rollPrivacy.firstChild);
-			return;
+			return true;
+		}
+
+		// v14
+		const v14Targets = [
+			document.querySelector("#chat-controls .chat-control-icon"),
+			document.querySelector("#chat-controls"),
+			document.querySelector("#chat-form"),
+			document.querySelector("#chat")
+		].filter(Boolean);
+		if (v14Targets.length) {
+			button = Fatecontrol.createButton(["ui-control", "icon", "fateroll-chat-button"]);
+			v14Targets[0].insertBefore(button, v14Targets[0].firstChild);
+			return true;
 		}
 
 		// v12
@@ -360,20 +400,22 @@ static addChatControl() {
 		if (legacyTarget) {
 			const label = document.createElement("label");
 			label.innerHTML = `<i id="FATE-button" class="fas fa-yin-yang FATE-button" style="text-shadow: 0 0 1px black; margin-right: 5px;"></i>`;
-			label.onclick = Fatecontrol.initializeFATE;
+			label.onclick = (event) => Fatecontrol.initializeFATE(event);
 			legacyTarget.insertBefore(label, legacyTarget.firstChild);
+			return true;
 		}
+		return false;
 	}
 	
-    static initializeFATE() {
-		event.preventDefault();
+    static initializeFATE(event) {
+		event?.preventDefault?.();
 		let tokens = canvas.tokens.controlled;
 		if(game.settings.get('fateroll', 'onlyplayers'))
 		{
 			let tempArray = []
 			for(let i = 0; i < tokens.length; i++){
 				
-				if(tokens[i].actor.data.type != "npc"){
+				if(tokens[i].actor?.type != "npc"){
 					tempArray.push(tokens[i])
 				}
 			}
@@ -517,7 +559,7 @@ static addChatControl() {
 }
 class ROFConfig extends FormApplication {
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return rofMergeObject(super.defaultOptions, {
             title: "Roll of Fate Customizer",
             id: "rof-config",
             template: "modules/fateroll/templates/rofEditor.html",
@@ -578,21 +620,36 @@ class ROFConfig extends FormApplication {
     }
 	close(options){
         super.close(options);
-    }
+	}
 }
-Hooks.on('canvasReady', function(){
-	if(game.settings.get('fateroll', 'hidebutton')){
-		if(game.user.isGM){
-			Fatecontrol.addChatControl();
-			console.log("FATE GM TRUE");
-		}
-		console.log("FATE GM FIN");
+
+function scheduleFateControlButton(retries = 20) {
+	window.clearTimeout(rofChatControlRetry);
+	if (Fatecontrol.addChatControl()) return;
+	if (retries <= 0) {
+		console.warn("Roll of Fate | Could not find a chat control target for the Fate Roll button.");
+		return;
 	}
-	else{
-	Fatecontrol.addChatControl();
-	console.log("FATE NOT SET");
-	}
- 
+	rofChatControlRetry = window.setTimeout(() => scheduleFateControlButton(retries - 1), 250);
+}
+
+function observeFateControlButton() {
+	if (rofChatControlObserver) return;
+	rofChatControlObserver = new MutationObserver(() => scheduleFateControlButton(3));
+	rofChatControlObserver.observe(document.body, { childList: true, subtree: true });
+}
+
+Hooks.once('ready', function() {
+	observeFateControlButton();
+	scheduleFateControlButton();
+});
+
+Hooks.on('canvasReady', function() {
+	scheduleFateControlButton();
+});
+
+Hooks.on('renderSidebarTab', function() {
+	scheduleFateControlButton(8);
 });
 
 Hooks.on('renderROFConfig', function(){

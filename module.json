@@ -3,7 +3,7 @@
 	"name": "fateroll",
 	"title": "Roll of Fate",
 	"description": "Blame PC deaths on the system",
-	"version": "13.2",
+	"version": "14.0",
 	"author": "Handyfon#8390",
 	"esmodules": ["fate.js"],
 	"styles": ["fate.css"],
@@ -13,6 +13,6 @@
     "download": "https://github.com/Handyfon/roll-of-fate/raw/master/fate.zip",
 	"compatibility": {
 		"minimum": "12",
-		"verified": "13"
+		"verified": "14"
 	}
 }
